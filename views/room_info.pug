@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1= title
+
+    p The room #{room.name} will be deleted in #{room.active_minutes} minutes
+
+    ul
+    for user in room.users
+        li user name: #{user.name} user link: #{user.link}
+
+

@@ -2,4 +2,18 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+
+  form(method='POST' action='room/create')
+    div.form-group
+      label(for='room_name') Room name:
+      input#room_name.form-control(type='text', required='true',  name='room_name')
+
+    div.form-group
+      label(for='active_minutes') Expires in (minutes):
+      input#active_minutes.form-control(type='number', required='true',  name='active_minutes')
+
+    div.form-group
+      label(for='num_of_users') Number of users (including you):
+      input#num_of_users.form-control(type='number', required='true', name='num_of_users')
+    button.btn.btn-primary(type='submit') Submit
+
