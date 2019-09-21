@@ -17,3 +17,11 @@ block content
       input#num_of_users.form-control(type='number', required='true', name='num_of_users')
     button.btn.btn-primary(type='submit') Submit
 
+    if errors
+      ul
+      for error in errors
+        li #{error.msg}. Given value <i> #{error.value} </i>
+
+
+
+
