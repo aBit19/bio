@@ -1,5 +1,5 @@
 const {check, validationResult, sanitizeBody} = require('express-validator');
-let roomPersistence = require('../models/room');
+let roomPersistence = require('../models/roomSchema');
 
 exports.create_room_post = [
 	check('room_name')
@@ -17,22 +17,27 @@ exports.create_room_post = [
 		.withMessage('Num of users should be a number.')
 		.isLength({min: 1}),
 	sanitizeBody('room_name').escape(),
+
 	function (req, res, next) {
-	const errors = validationResult(req);
-	if (errors.isEmpty()) {
-		roomPersistence.create_room(req.body.room_name, req.body.active_minutes);
-		var room = {
-			name: req.body.room_name,
-			active_minutes: req.body.active_minutes,
-			users: [{
-				name: 'user_name1', link: 'http://localhost:3000/room/join/' + req.body.room_name}, {
-				name: 'user_name2', link: 'http://localhost:3000/room/join/1234'}]
-		};
-		res.render('room_info', {room: room});
-	} else {
-		res.render('index', {errors: errors.array(), title: 'Get a room.'});
-	}
-}];
+		const errors = validationResult(req);
+
+		if (errors.isEmpty()) {
+			roomPersistence.create_room(req.body.room_name, req.body.active_minutes);
+			var users = makeUsers(req.body.num_of_users);
+			var room = {
+				name: req.body.room_name,
+				active_minutes: req.body.active_minutes,
+				users: [{
+					name: 'user_name1', link: 'localhost:3000/room/join/' + req.body.room_name
+				}, {
+					name: 'user_name2', link: 'localhost:3000/room/join/1234'
+				}]
+			};
+			res.render('room_info', {room: room});
+		} else {
+			res.render('index', {errors: errors.array(), title: 'Get a room.'});
+		}
+	}];
 
 exports.get_room_content = function (req, res, next) {
 	let roomId = req.params.roomId;

@@ -1,9 +1,16 @@
+"use strict";
 var client = require('./redis_client');
 
+function withNewId(callback) {
+	client.incr("room::id", callback);
+}
 
 exports.create_room = function (roomName, minutes) {
-	console.log(client.id);
-	client.set(roomName, minutes);
+	withNewId(function (err, roomId) {
+		let key = 'room:' + roomId;
+		console.log("Key: " + key);
+		client.hset(key, "name", roomName);
+	});
 };
 
 exports.get_room = function (roomName, callback) {

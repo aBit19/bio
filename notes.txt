@@ -1,4 +1,6 @@
-DEBUG=chichat:* npm run devstart 
+Start redis server.
+DEBUG=chichat:* npm run devstart
+
 
 
 home -> 
@@ -8,8 +10,7 @@ home ->
         3) number of user
 
     then ->
-     1) create a chat room with this name.
-     this room should be deleted after the specified minute
+     1) create a chat room with this name. this room should be deleted after the specified minute
      2) for each user create a link and a password and show that to the user
 
 
